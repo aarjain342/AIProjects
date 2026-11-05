@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
+from matplotlib import pyplot as plt
 
 _df = pd.read_csv("StudentsPerformance.csv")
 
@@ -42,10 +43,15 @@ y = df["math score"]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2, random_state=42)
 
-model = LinearRegression().fit(X_train, y_train)
+model = LinearRegression()
+model.fit(X_train, y_train)
 
 results = model.predict(X_test)
 
 MSE = mean_squared_error(y_test, results)
+
+plt.plot(range(len(y_test.values)), y_test, '--b')
+plt.plot(range(len(results)), results, '--r')
+plt.show()
 
 print(MSE)
