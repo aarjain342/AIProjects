@@ -38,11 +38,14 @@ _df = pd.get_dummies(
 
 _df["reading score"] = _df["reading score"].apply(lambda x: x/100)
 _df["writing score"] = _df["writing score"].apply(lambda x: x/100)
+_df["math score"] = _df["math score"].apply(lambda x: x/100)
 
 df = _df
 
-X = df.drop(columns=["math score"])
-y = df["math score"]
+predicting_column = "math score"
+
+X = df.drop(columns=[predicting_column])
+y = df[predicting_column]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2, random_state=128)
 
@@ -58,7 +61,7 @@ plt.plot(range(len(results)), results, '--r')
 plt.legend(["Actual", "Predicted"])
 plt.show()
 
-print(RMSE)
+print(f"Error: {RMSE}")
 
 for feature, val in zip(X.columns, model.coef_):
     print(f"Parameter: {feature} | Weight: {val}")
